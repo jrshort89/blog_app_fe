@@ -1,24 +1,25 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { Button, TextField } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
+type FormData = {
+	email: string;
+	password: string;
+};
+
 export default function LoginForm() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const {
+		handleSubmit,
+		control,
+		formState: { errors },
+	} = useForm<FormData>();
 	const navigate = useNavigate();
 
-	const emailHandler = (e: ChangeEvent<HTMLInputElement>) =>
-		setEmail(e.currentTarget.value);
-
-	const passwordHandler = (e: ChangeEvent<HTMLInputElement>) =>
-		setPassword(e.currentTarget.value);
-
-	const submitLogin = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
+    const submitLogin = async ({ email, password }: FormData) => {        
 		const body = {
 			session: {
 				email: email,
-				password: password,
+				password: password
 			},
 		};
 
@@ -36,16 +37,42 @@ export default function LoginForm() {
 		}
 	};
 	return (
-		<form onSubmit={submitLogin} className="App">
-			<label htmlFor="email">Email:&nbsp;</label>
-			<input value={email} onChange={emailHandler} />
+		<form onSubmit={handleSubmit(submitLogin)} className="App">
+			<Controller
+				name="email"
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<TextField
+						id="filled-basic"
+						label="Email"
+						variant="filled"
+						error={!!errors.email}
+						{...field}
+					/>
+				)}
+			/>
+			{errors.email?.type === "required" && "Email is required"}
 			<br />
 			<br />
-			<label htmlFor="password">Password:&nbsp;</label>
-			<input value={password} onChange={passwordHandler} />
+			<Controller
+				name="password"
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<TextField
+						id="filled-basic"
+						label="Password"
+						variant="filled"
+						error={!!errors.password}
+						{...field}
+					/>
+				)}
+			/>
+			{errors.password?.type === "required" && "Password is required"}
 			<br />
 			<br />
-			<button type="submit">Submit</button>
+			<Button type="submit">Submit</Button>
 		</form>
 	);
 }

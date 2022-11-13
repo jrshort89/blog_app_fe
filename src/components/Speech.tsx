@@ -16,7 +16,7 @@ const Speech = ({ checkAnswer, children }: any) => {
 
 	useEffect(() => {
 		checkAnswer(transcript, resetTranscript);
-	}, [transcript]);
+	}, [checkAnswer, resetTranscript, transcript]);
 
 	if (!browserSupportsSpeechRecognition) {
 		return <span>Browser doesn't support speech recognition.</span>;
@@ -48,11 +48,17 @@ const Speech = ({ checkAnswer, children }: any) => {
 				return child;
 			})}
 			<div
-				style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					alignItems: "center",
+					width: "100%",
+					justifyContent: "center",
+				}}
 			>
-				<p>Microphone: </p>
 				{listening ? <MicIcon htmlColor="#cd0000" /> : <MicOffIcon />}
-			</div>
+            </div>
+            <br />
 			<button onClick={startUp}>Start</button>
 			<button onClick={SpeechRecognition.stopListening}>Stop</button>
 			<button onClick={resetTranscript}>Reset</button>

@@ -15,11 +15,11 @@ export default function LoginForm() {
 	} = useForm<FormData>();
 	const navigate = useNavigate();
 
-    const submitLogin = async ({ email, password }: FormData) => {        
+	const submitLogin = async ({ email, password }: FormData) => {
 		const body = {
 			session: {
 				email: email,
-				password: password
+				password: password,
 			},
 		};
 
@@ -31,7 +31,7 @@ export default function LoginForm() {
 				},
 				body: JSON.stringify(body),
 			});
-			navigate("/blogs");
+			navigate("/speech");
 		} catch (e) {
 			console.error(e);
 		}

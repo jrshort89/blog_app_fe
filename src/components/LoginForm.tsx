@@ -31,7 +31,7 @@ export default function LoginForm() {
 				},
 				body: JSON.stringify(body),
 			});
-			navigate("/speech");
+			navigate("/questioninput");
 		} catch (e) {
 			console.error(e);
 		}

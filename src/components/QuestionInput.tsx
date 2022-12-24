@@ -1,6 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
+import TranslationHistory from "./TranslationHistory";
 
 const CREATE_SPANISH_TRANSLATION = gql`
 	mutation ($englishText: String!) {
@@ -19,44 +20,49 @@ export default function QuestionInput() {
 		handleSubmit,
 		control,
 		formState: { errors },
+		setValue
 	} = useForm<{ englishPhrase: string }>();
 
-	const [createSpanishTranslation, { loading, error, data }] = useMutation(
+	const [createSpanishTranslation, { loading, error }] = useMutation(
 		CREATE_SPANISH_TRANSLATION
 	);
 
 	const submitPhrase = ({ englishPhrase }: any) => {
 		createSpanishTranslation({ variables: { englishText: englishPhrase } });
+		setValue('englishPhrase', '');
 	};
-
-	if (loading) return <p>Loading...</p>;
-	if (error) return <p>`Submission error! ${error.message}`</p>;
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(submitPhrase)} className="App">
-				<Controller
-					name="englishPhrase"
-					control={control}
-					rules={{ required: true }}
-					render={({ field }) => (
-						<TextField
-							id="filled-basic"
-							label="englishPhrase"
-							variant="filled"
-							error={!!errors.englishPhrase}
-							{...field}
+			{error ? (
+				<p>`Submission error! ${error?.message}`</p>
+			) : (
+				<>
+					<form onSubmit={handleSubmit(submitPhrase)} className="App">
+						<Controller
+							name="englishPhrase"
+							control={control}
+							rules={{ required: true }}
+							render={({ field }) => (
+								<TextField
+									id="filled-basic"
+									label="Type a phrase"
+									variant="filled"
+									error={!!errors.englishPhrase}
+									{...field}
+								/>
+							)}
 						/>
-					)}
-				/>
-				{errors.englishPhrase?.type === "required" && "Phrase is required"}
-				<br />
-				<br />
-				<Button type="submit">Submit</Button>
-			</form>
+						{errors.englishPhrase?.type === "required" && "Phrase is required"}
+						<br />
+						<br />
+						<Button type="submit">Submit</Button>
+					</form>
+					<br />
+				</>
+			)}
 			<br />
-			{data.createSpanishTranslation.spanishTranslation.englishText}:&nbsp;
-			{data.createSpanishTranslation.spanishTranslation.spanishText}
+			<TranslationHistory reload={loading} />
 		</>
 	);
 }

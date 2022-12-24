@@ -3,13 +3,26 @@ import ReactDOM from "react-dom/client";
 import AppRouter from "./components/AppRouter";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import {
+	ApolloClient,
+	InMemoryCache,
+	ApolloProvider,
+} from "@apollo/client";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );
+
+const client = new ApolloClient({
+	uri: "http://localhost:3000/graphql",
+	cache: new InMemoryCache(),
+});
+
 root.render(
 	<React.StrictMode>
-		<AppRouter />
+		<ApolloProvider client={client}>
+			<AppRouter />
+		</ApolloProvider>
 	</React.StrictMode>
 );
 

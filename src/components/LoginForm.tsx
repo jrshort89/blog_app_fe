@@ -1,21 +1,32 @@
-import { Button, TextField } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import {Button, TextField} from "@mui/material";
+import {Controller, useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 type FormData = {
 	email: string;
 	password: string;
 };
 
-export default function LoginForm() {
+export default function LoginForm({firebaseApp}: any) {
 	const {
 		handleSubmit,
 		control,
-		formState: { errors },
+		formState: {errors},
 	} = useForm<FormData>();
 	const navigate = useNavigate();
 
-	const submitLogin = async ({ email, password }: FormData) => {
+	const uiConfig = {
+		signInFlow: 'popup',
+		signInSuccessUrl: '/questioninput',
+		signInOptions: [
+			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+		],
+	};
+
+	const submitLogin = async ({email, password}: FormData) => {
 		const body = {
 			session: {
 				email: email,
@@ -41,8 +52,8 @@ export default function LoginForm() {
 			<Controller
 				name="email"
 				control={control}
-				rules={{ required: true }}
-				render={({ field }) => (
+				rules={{required: true}}
+				render={({field}) => (
 					<TextField
 						id="filled-basic"
 						label="Email"
@@ -53,13 +64,13 @@ export default function LoginForm() {
 				)}
 			/>
 			{errors.email?.type === "required" && "Email is required"}
-			<br />
-			<br />
+			<br/>
+			<br/>
 			<Controller
 				name="password"
 				control={control}
-				rules={{ required: true }}
-				render={({ field }) => (
+				rules={{required: true}}
+				render={({field}) => (
 					<TextField
 						id="filled-basic"
 						label="Password"
@@ -70,9 +81,12 @@ export default function LoginForm() {
 				)}
 			/>
 			{errors.password?.type === "required" && "Password is required"}
-			<br />
-			<br />
+			<br/>
+			<br/>
 			<Button type="submit">Submit</Button>
+			<br/>
+			<br/>
+			<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
 		</form>
 	);
 }

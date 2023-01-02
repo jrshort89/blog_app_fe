@@ -1,10 +1,12 @@
 import LoginForm from "./components/LoginForm";
 import firebase from 'firebase/compat/app';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import SpeechWrapper from "./components/SpeechWrapper";
 import QuestionInput from "./components/QuestionInput";
 import {useEffect, useState} from "react";
 import {gql, useMutation} from "@apollo/client";
+import {AppBar, Toolbar, Typography} from "@mui/material";
+import {Settings} from "./components/Settings";
 
 const CREATE_USER = gql`
 	mutation ($email: String!) {
@@ -31,6 +33,8 @@ function App() {
 	const [isAuthenticated, setIsAuthenticatied] = useState(false)
 	const [createUser] = useMutation(CREATE_USER);
 
+	const home = isAuthenticated ? '/questioninput' : '/'
+
 	firebase.auth().onAuthStateChanged((user) => {
 		setIsAuthenticatied(!!user)
 	})
@@ -40,13 +44,25 @@ function App() {
 			createUser({variables: {email: firebase.auth()?.currentUser?.email}})
 		}
 	}, [isAuthenticated])
+
 	return (<BrowserRouter>
+		<AppBar position='fixed'>
+		<Toolbar>
+			<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+				<Link style={{color: 'white', textDecoration: 'none'}} color='white' to={home}>
+				Translate
+				</Link>
+			</Typography>
+			<Link style={{color: 'white', textDecoration: 'none'}} color='white' to="/settings">Settings</Link>
+		</Toolbar>
+		</AppBar>
 		<Routes>
 			<Route path="/" element={<LoginForm />}/>
 			{isAuthenticated && (
 				<>
 					<Route path="/speech" element={<SpeechWrapper/>}/>
 					<Route path="/questioninput" element={<QuestionInput/>}/>
+					<Route path="/settings" element={<Settings />} />
 				</>
 			)}
 			<Route path='*' element={<p>404: Not Found</p>} />

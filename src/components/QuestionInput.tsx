@@ -2,7 +2,6 @@ import { Button, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
 import TranslationHistory from "./TranslationHistory";
-import firebase from 'firebase/compat/app';
 
 const CREATE_SPANISH_TRANSLATION = gql`
 	mutation ($englishText: String!) {
@@ -41,7 +40,6 @@ export default function QuestionInput() {
 
 	return (
 		<>
-			<p>{firebase?.auth()?.currentUser?.email}</p>
 			{error ? (
 				<p>`Submission error! ${error?.message}`</p>
 			) : (

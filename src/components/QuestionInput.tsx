@@ -15,6 +15,8 @@ const CREATE_SPANISH_TRANSLATION = gql`
 	}
 `;
 
+
+
 export default function QuestionInput() {
 	const {
 		handleSubmit,
@@ -26,6 +28,10 @@ export default function QuestionInput() {
 	const [createSpanishTranslation, { loading, error }] = useMutation(
 		CREATE_SPANISH_TRANSLATION
 	);
+
+
+
+
 
 	const submitPhrase = ({ englishPhrase }: any) => {
 		createSpanishTranslation({ variables: { englishText: englishPhrase } });

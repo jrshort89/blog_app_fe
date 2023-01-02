@@ -13,7 +13,6 @@ export default function TranslationHistory({ reload }: { reload: boolean }) {
 	const { loading, error, data, client } = useQuery(TRANSLATION_HISTORY);
 
 	useEffect(() => {
-		console.log('reload: ', reload)
 		client.refetchQueries({ include: [TRANSLATION_HISTORY] });
 	}, [reload]);
 	if (loading) return <p>Loading...</p>;

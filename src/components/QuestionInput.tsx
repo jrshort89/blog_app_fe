@@ -3,7 +3,6 @@ import { Controller, useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
 import TranslationHistory from "./TranslationHistory";
 import firebase from 'firebase/compat/app';
-import {useEffect} from "react";
 
 const CREATE_SPANISH_TRANSLATION = gql`
 	mutation ($englishText: String!) {
@@ -17,15 +16,7 @@ const CREATE_SPANISH_TRANSLATION = gql`
 	}
 `;
 
-const CREATE_USER = gql`
-	mutation ($email: String!) {
-		createUser(input: { email: $email }) {
-			user {
-				email
-			}
-		}
-	}
-`;
+
 
 export default function QuestionInput() {
 	const {
@@ -39,11 +30,9 @@ export default function QuestionInput() {
 		CREATE_SPANISH_TRANSLATION
 	);
 
-	const [createUser] = useMutation(CREATE_USER);
 
-	useEffect(() => {
-		createUser({variables: {email: firebase.auth()?.currentUser?.email}})
-	}, [])
+
+
 
 	const submitPhrase = ({ englishPhrase }: any) => {
 		createSpanishTranslation({ variables: { englishText: englishPhrase } });

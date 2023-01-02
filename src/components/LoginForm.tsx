@@ -10,7 +10,7 @@ type FormData = {
 	password: string;
 };
 
-export default function LoginForm({firebaseApp}: any) {
+export default function LoginForm() {
 	const {
 		handleSubmit,
 		control,

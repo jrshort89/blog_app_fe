@@ -15,27 +15,21 @@ const CREATE_SPANISH_TRANSLATION = gql`
 	}
 `;
 
-
-
 export default function QuestionInput() {
 	const {
 		handleSubmit,
 		control,
 		formState: { errors },
-		setValue
+		setValue,
 	} = useForm<{ englishPhrase: string }>();
 
 	const [createSpanishTranslation, { loading, error }] = useMutation(
 		CREATE_SPANISH_TRANSLATION
 	);
 
-
-
-
-
 	const submitPhrase = ({ englishPhrase }: any) => {
 		createSpanishTranslation({ variables: { englishText: englishPhrase } });
-		setValue('englishPhrase', '');
+		setValue("englishPhrase", "");
 	};
 
 	return (
@@ -58,7 +52,7 @@ export default function QuestionInput() {
 									{...field}
 								/>
 							)}
-						/>
+						></Controller>
 						{errors.englishPhrase?.type === "required" && "Phrase is required"}
 						<br />
 						<br />

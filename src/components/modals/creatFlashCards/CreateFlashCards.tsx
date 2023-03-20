@@ -3,7 +3,6 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
-  FormGroup,
   FormHelperText,
   Modal,
   OutlinedInput,
@@ -95,7 +94,7 @@ export function CreateFlashCards({
             required={true}
             {...register("groupName")}
           />
-          <FormGroup>
+          <div style={styles.translateHistory}>
             {!!translationHistory.data &&
               translationHistory.data?.translationHistory?.map(
                 (t: translationHistory) => (
@@ -108,10 +107,10 @@ export function CreateFlashCards({
                   </div>
                 )
               )}
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Loading..." : "Submit"}
-            </Button>
-          </FormGroup>
+          </div>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? "Loading..." : "Submit"}
+          </Button>
         </form>
       </Box>
     </Modal>

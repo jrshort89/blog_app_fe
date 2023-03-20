@@ -21,8 +21,14 @@ const modalStyle: any = {
   p: 4,
 };
 
+const translateHistory: React.CSSProperties = {
+  maxHeight: "10rem",
+  overflow: "scroll",
+};
+
 // todo: remove type 'any'
 export const styles: any = {
   formWrapperStyle,
   modalStyle,
+  translateHistory,
 };

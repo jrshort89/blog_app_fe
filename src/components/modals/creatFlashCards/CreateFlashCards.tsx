@@ -94,7 +94,7 @@ export function CreateFlashCards({
             required={true}
             {...register("groupName")}
           />
-          <div style={styles.translateHistory}>
+          <div style={styles.translateHistory} className={"no-scrollbar"}>
             {!!translationHistory.data &&
               translationHistory.data?.translationHistory?.map(
                 (t: translationHistory) => (

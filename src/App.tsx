@@ -1,14 +1,15 @@
 import LoginForm from "./components/LoginForm";
 import firebase from "firebase/compat/app";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import SpeechWrapper from "./components/SpeechWrapper";
 import QuestionInput from "./components/QuestionInput";
-import { useEffect, useState } from "react";
-import { gql, useMutation } from "@apollo/client";
-import { Settings } from "./components/Settings";
-import { Navbar } from "./components/Navbar";
+import {useEffect, useState} from "react";
+import {gql, useMutation} from "@apollo/client";
+import {Settings} from "./components/Settings";
+import {Navbar} from "./components/Navbar";
 import FlashCardsWrapper from "./components/flashcards/FlashCardsWrapper";
 
+// TODO: move to query file
 const CREATE_USER = gql`
   mutation ($email: String!) {
     createUser(input: { email: $email }) {
